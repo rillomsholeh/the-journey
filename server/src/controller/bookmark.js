@@ -2,10 +2,9 @@ const { tb_bookmark, tb_post, tb_user } = require("../../models");
 
 exports.addBookmark = async (request, response) => {
   try {
-    const { id } = request.params;
     const addBookmark = await tb_bookmark.create({
       idUser: request.tb_user.id,
-      idPost: id,
+      idPost: request.body.idJourney,
     });
 
     response.send({

@@ -36,7 +36,8 @@ export default function Posts() {
     }
   };
 
-  const handleBookmark = async (id) => {
+  const handleBookmark = async (journeyID) => {
+    // await API.post("/addBookmark");
     try {
       const config = {
         headers: {
@@ -44,7 +45,12 @@ export default function Posts() {
         },
       };
 
-      const response = await API.post("/addBookmark", config);
+      var id = {
+        idJourney: journeyID,
+      };
+
+      const body = JSON.stringify(id);
+      const response = await API.post("addBookmark", body, config);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +76,7 @@ export default function Posts() {
           {post.map((items, index) => (
             <div className="relative">
               <div
-                onClick={handleBookmark}
+                onClick={() => handleBookmark(items.id)}
                 className="absolute z-10 top-48 right-0 cursor-pointer"
               >
                 <img onClick={handleClick} src={Bookmark} alt="" />
