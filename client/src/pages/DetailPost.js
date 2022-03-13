@@ -1,0 +1,49 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import dateFormat from "dateformat";
+import parse from "html-react-parser";
+
+import { API } from "../config/api";
+
+const Detail = () => {
+  const { id } = useParams();
+  const [post, setPost] = useState([]);
+  const [user, setUser] = useState([]);
+
+  const getPost = async () => {
+    const response = await API.get("/detail/" + id);
+    console.log(response);
+    setPost(response.data.detail);
+    setUser(response.data.detail.user);
+  };
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+  return (
+    <div>
+      <div className="md:w-9/12 md:m-auto md:mt-10">
+        <div className="flex justify-between items-center md:my-10">
+          <div>
+            <h1 className="text-5xl">{post.title}</h1>
+            <p className="text-lg mt-4">
+              {dateFormat(post.createdAt, "mediumDate")}
+            </p>
+          </div>
+          <div>
+            <p className="text-md">{user.name}</p>
+          </div>
+        </div>
+
+        <div>
+          <img src={post.thumbnail} alt="" />
+        </div>
+
+        <div className="mt-20">{post.description}</div>
+      </div>
+    </div>
+  );
+};
+
+export default Detail;
