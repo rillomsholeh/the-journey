@@ -12,22 +12,15 @@ module.exports = (sequelize, DataTypes) => {
       tb_bookmark.belongsTo(models.tb_user, {
         as: "user",
         foreignKey: {
-          name: "id",
+          name: "idUser",
         },
       }),
         tb_bookmark.belongsTo(models.tb_post, {
-          // as: "post",
+          as: "bookmark",
           foreignKey: {
-            name: "idUser",
+            name: "idPost",
           },
         });
-
-      tb_bookmark.belongsTo(models.tb_post, {
-        as: "bookmark",
-        foreignKey: {
-          name: "idPost",
-        },
-      });
     }
   }
   tb_bookmark.init(

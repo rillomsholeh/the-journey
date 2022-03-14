@@ -4,11 +4,14 @@ import dateFormat from "dateformat";
 import parse from "html-react-parser";
 import Bookmark from "../assets/bookmark.png";
 import Snackbar from "@mui/material/Snackbar";
+import TextField from "@mui/material/TextField";
+
 import { API } from "../config/api";
 
 export default function Posts() {
   const [post, setPost] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [search, setSearch] = useState("");
 
   const handleClick = async () => {
     setOpen(true);
@@ -63,7 +66,19 @@ export default function Posts() {
   return (
     <div>
       <div className="md:mt-10">
+        <div className="md:mt-8 md:mb-10">
+          <TextField
+            className="w-full"
+            id="outlined-basic"
+            label="Search anything here"
+            variant="outlined"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+        </div>
         <h2 className="mb-4">All Post</h2>
+
         <Snackbar
           open={open}
           autoHideDuration={3000}
@@ -73,35 +88,53 @@ export default function Posts() {
         />
 
         <div className="grid grid-cols-4 gap-8 relative">
-          {post.map((items, index) => (
-            <div className="relative">
-              <div
-                onClick={() => handleBookmark(items.id)}
-                className="absolute z-10 top-48 right-0 cursor-pointer"
-              >
-                <img onClick={handleClick} src={Bookmark} alt="" />
-              </div>
-              <Link key={index} to={`/detail/${items.id}`}>
-                <div>
-                  <div>
-                    <img src={items.thumbnail} alt="" className="h-44 w-full" />
-                  </div>
-                  <div className="md:mt-4">
-                    <h3 className="text-xl">{items.title}</h3>
-                  </div>
-                  <div className="">
-                    <p className="text-gray-500">
-                      {dateFormat(items.createdAt, "mediumDate")},{" "}
-                      {items.user.name}
-                    </p>
-                  </div>
-                  <div className="md:my-4">
-                    <p className="line-clamp-3">{parse(items.description)}</p>
-                  </div>
+          {post
+            .filter((items, index) => {
+              if (search === "") {
+                return items;
+              } else if (
+                items.title.toLowerCase().includes(search.toLowerCase()) ||
+                items.description
+                  .toLowerCase()
+                  .includes(search.toLowerCase()) ||
+                items.user.name.toLowerCase().includes(search.toLowerCase())
+              ) {
+                return items;
+              }
+            })
+            .map((items, index) => (
+              <div className="relative shadow-lg p-2">
+                <div
+                  onClick={() => handleBookmark(items.id)}
+                  className="absolute z-10 top-48 right-0 cursor-pointer"
+                >
+                  <img onClick={handleClick} src={Bookmark} alt="" />
                 </div>
-              </Link>
-            </div>
-          ))}
+                <Link key={index} to={`/detail/${items.id}`}>
+                  <div>
+                    <div>
+                      <img
+                        src={items.thumbnail}
+                        alt=""
+                        className="h-44 w-full object-cover"
+                      />
+                    </div>
+                    <div className="md:mt-4">
+                      <h3 className="text-xl">{items.title}</h3>
+                    </div>
+                    <div className="">
+                      <p className="text-gray-500">
+                        {dateFormat(items.createdAt, "mediumDate")},{" "}
+                        {items.user.name}
+                      </p>
+                    </div>
+                    <div className="md:my-4">
+                      <p className="line-clamp-3">{parse(items.description)}</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))}
         </div>
       </div>
     </div>

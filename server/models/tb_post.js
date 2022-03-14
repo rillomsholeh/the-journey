@@ -14,13 +14,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: {
           name: "idUser",
         },
-      }),
-        tb_post.hasOne(models.tb_bookmark, {
-          as: "bookmark",
-          foreignKey: {
-            name: "idPost",
-          },
-        });
+      });
+      // tb_post.hasOne(models.tb_bookmark, {
+      //   as: "bookmark",
+      //   foreignKey: {
+      //     name: "idPost",
+      //   },
+      // });
     }
   }
   tb_post.init(

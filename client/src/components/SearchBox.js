@@ -9,6 +9,9 @@ const SearchBox = () => {
         id="outlined-basic"
         label="Search anything here"
         variant="outlined"
+        // onChange={(e) => {
+        //   setSearch(e.target.value);
+        // }}
       />
     </div>
   );

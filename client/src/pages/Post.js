@@ -10,10 +10,6 @@ const Post = () => {
       </div>
 
       <div>
-        <SearchBox />
-      </div>
-
-      <div>
         <AllPost />
       </div>
     </div>

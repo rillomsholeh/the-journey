@@ -30,7 +30,7 @@ const Profile = () => {
         <img src={ProfileImage} alt="" className="w-44 h-44 rounded-full" />
       </div>
       <div className="flex items-center justify-center flex-col md:mt-4">
-        <h1 className="text-xl">{state.user.name}</h1>
+        <h1 className="text-xl">{state.name}</h1>
         <p>{state.user.email}</p>
       </div>
 
@@ -44,7 +44,11 @@ const Profile = () => {
                 <Link key={index} to={`/detail/${items.id}`}>
                   <div className="card md:w-72 rounded md:p-4">
                     <div>
-                      <img src={items.thumbnail} alt="" />
+                      <img
+                        src={items.thumbnail}
+                        alt=""
+                        className="h-44 w-full object-cover"
+                      />
                     </div>
                     <div className="md:mt-4">
                       <h3 className="text-xl">{items.title}</h3>

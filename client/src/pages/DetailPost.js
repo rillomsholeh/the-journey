@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import dateFormat from "dateformat";
 import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 import { API } from "../config/api";
 
@@ -16,6 +17,8 @@ const Detail = () => {
     setPost(response.data.detail);
     setUser(response.data.detail.user);
   };
+
+  var clean = DOMPurify.sanitize(post.description);
 
   useEffect(() => {
     getPost();
@@ -37,10 +40,16 @@ const Detail = () => {
         </div>
 
         <div>
-          <img src={post.thumbnail} alt="" />
+          <img
+            src={post.thumbnail}
+            alt=""
+            className="heightDetail object-cover"
+          />
         </div>
 
-        <div className="mt-20">{post.description}</div>
+        <div className="mt-20" dangerouslySetInnerHTML={{ __html: clean }}>
+          {/* {post.description} */}
+        </div>
       </div>
     </div>
   );
