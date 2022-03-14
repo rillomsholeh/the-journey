@@ -36,6 +36,6 @@ const {
 } = require("../controller/bookmark");
 router.post("/addBookmark", auth, addBookmark);
 router.get("/getBookmark/:id", getBookmarkuser);
-router.post("/deleteBookmark/:id", deleteBookmark);
+router.post("/deleteBookmark", deleteBookmark);
 
 module.exports = router;

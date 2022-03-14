@@ -23,10 +23,9 @@ exports.addBookmark = async (request, response) => {
 
 exports.deleteBookmark = async (request, response) => {
   try {
-    const id = request.params;
     await tb_bookmark.destroy({
       where: {
-        id,
+        id: request.body.id,
       },
     });
 
@@ -61,24 +60,23 @@ exports.getBookmarkuser = async (request, response) => {
           attributes: {
             exclude: ["createdAt", "updatedAt"],
           },
-        },
-        {
-          model: tb_user,
-          as: "user",
-          attributes: {
-            exclude: ["createdAt", "updatedAt", "password"],
-          },
+          include: [
+            {
+              model: tb_user,
+              as: "user",
+            },
+          ],
         },
       ],
     });
 
-    bookmarkData = JSON.parse(JSON.stringify(bookmarkData));
-    bookmarkData = bookmarkData.map((item) => {
-      return {
-        ...item,
-        thumbnail: process.env.FILE_PATH + item.thumbnail,
-      };
-    });
+    // bookmarkData = JSON.parse(JSON.stringify(bookmarkData));
+    // bookmarkData = bookmarkData.map((item) => {
+    //   return {
+    //     ...item,
+    //     thumbnail: process.env.FILE_PATH + item.thumbnail,
+    //   };
+    // });
 
     response.send({
       status: "success",
