@@ -8,13 +8,25 @@ import parse from "html-react-parser";
 
 const Profile = () => {
   const [post, setPost] = useState([]);
-  const [state, dispatch] = useContext(UserContext);
+  const [state] = useContext(UserContext);
+  const [user, setUser] = useState([]);
+
+  // const getUser = async () => {
+  //   try {
+  //     const response = await API.get(`/getUser/${state.user.id}`);
+  //     setUser(response.data.user);
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const getPosts = async () => {
     try {
       const response = await API.get(`/postUser/${state.user.id}`);
       setPost(response.data.data.posts);
-      console.log(state);
+      setUser(response.data.data.posts);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -22,6 +34,7 @@ const Profile = () => {
 
   useEffect(() => {
     getPosts();
+    // getUser();
   }, []);
 
   return (
@@ -29,10 +42,15 @@ const Profile = () => {
       <div className="flex items-center justify-center md:mt-16">
         <img src={ProfileImage} alt="" className="w-44 h-44 rounded-full" />
       </div>
-      <div className="flex items-center justify-center flex-col md:mt-4">
-        <h1 className="text-xl">{state.name}</h1>
-        <p>{state.user.email}</p>
-      </div>
+      {user.slice(0, 1).map((items, index) => (
+        <div
+          key={index}
+          className="flex items-center justify-center flex-col md:mt-4"
+        >
+          <h1 className="text-xl">{items.user.name}</h1>
+          <p>{state.user.email}</p>
+        </div>
+      ))}
 
       <div>
         <div className="bg-white">

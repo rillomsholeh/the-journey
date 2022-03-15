@@ -40,7 +40,6 @@ export default function Posts() {
   };
 
   const handleBookmark = async (journeyID) => {
-    // await API.post("/addBookmark");
     try {
       const config = {
         headers: {
@@ -53,7 +52,7 @@ export default function Posts() {
       };
 
       const body = JSON.stringify(id);
-      const response = await API.post("addBookmark", body, config);
+      await API.post("addBookmark", body, config);
     } catch (error) {
       console.log(error);
     }
