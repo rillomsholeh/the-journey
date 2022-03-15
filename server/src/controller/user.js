@@ -3,15 +3,16 @@ const { tb_user } = require("../../models");
 exports.getUser = async (request, response) => {
   try {
     const { id } = request.params;
-    const data = await tb_user.findOne({
+    let user = await tb_user.findOne({
       where: {
         id,
       },
     });
-
     response.send({
       status: "success",
-      data,
+      data: {
+        user,
+      },
     });
   } catch (error) {
     console.log(error);
