@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import parse from "html-react-parser";
 import Bookmark from "../assets/bookmark.png";
@@ -12,6 +12,7 @@ export default function Posts() {
   const [post, setPost] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = useState("");
+  const [view, setView] = useState(4);
 
   const handleClick = async () => {
     setOpen(true);
@@ -58,6 +59,10 @@ export default function Posts() {
     }
   };
 
+  const showMore = () => {
+    setView((preview) => preview + 4);
+  };
+
   useEffect(() => {
     getPosts();
   }, []);
@@ -88,6 +93,7 @@ export default function Posts() {
 
         <div className="grid grid-cols-4 gap-8 relative">
           {post
+            .slice(0, view)
             .filter((items, index) => {
               if (search === "") {
                 return items;
@@ -134,6 +140,14 @@ export default function Posts() {
                 </Link>
               </div>
             ))}
+        </div>
+        <div className="flex justify-center items-center md:mt-10 md:mb-10">
+          <button
+            onClick={showMore}
+            className="px-8 py-1 bg-blueSea text-white rounded"
+          >
+            Show More
+          </button>
         </div>
       </div>
     </div>
